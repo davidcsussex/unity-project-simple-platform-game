@@ -2,6 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+
+// added a physicsmaterial2d with zero friction to player to stop him sticking to objects
+
 public class playerMove : MonoBehaviour
 {
     // Start is called before the first frame update
@@ -9,13 +12,21 @@ public class playerMove : MonoBehaviour
     public int lives = 1;
     bool faceLeft=false;    
     private Rigidbody2D rb;
-    
+    private BoxCollider2D bc;
+    bool jumping;
+    public LayerMask platformLayerMask;
+
+    bool isGrounded;
 
     
     void Start()
     {
         // Get the rigidbody component
         rb = GetComponent<Rigidbody2D>();
+        bc = GetComponent<BoxCollider2D>();
+
+
+        jumping = false;
     }
 
     // Update is called once per frame
@@ -23,17 +34,25 @@ public class playerMove : MonoBehaviour
     {
         Vector2 velocity = rb.velocity;
 
-        // make player jump
-        if (Input.GetKey("j"))
-        {
-            if( velocity.y == 0 )
-            velocity.y=12;
-        }
         
+        Debug.Log("ig="+isGrounded);
+        if(  isGrounded == true )
+        {
+            
+            if (Input.GetKey("j") && (jumping==false))
+            {
+                Debug.Log("grounded do jump");
+                if( velocity.y == 0 )
+                {
+                    velocity.y=24;
+                    //jumping = true;
+                }
+            }
+
+        }        
 
         
-        
-        
+            
         // move player left/right
         if (Input.GetKey("left"))
         {
@@ -51,8 +70,10 @@ public class playerMove : MonoBehaviour
         else
         {
             velocity.x=0;
-        }
+            
 
+        }
+        
 
         // copy velocity values into the player RigidBody   
         rb.velocity = velocity;
@@ -73,5 +94,52 @@ public class playerMove : MonoBehaviour
 
         //ui_text.Debug("hello");
 
+    }
+
+
+    void FixedUpdate()
+    {
+        CheckPlayerIsGrounded();
+
+    }
+
+
+
+    // ************** Boxcast code to check if player is grounded ********************************
+    //  tutorial on boxcast/raycast  https://www.youtube.com/watch?v=c3iEl5AwUF8
+    public void CheckPlayerIsGrounded()
+    {
+        float extraHeight = 1f;
+        // make sure background objects are on their own layer, or collision will register with player
+        RaycastHit2D raycastHit = Physics2D.BoxCast(bc.bounds.center,bc.bounds.size, 0f, Vector2.down, extraHeight, platformLayerMask );
+
+        // debug code to show the boxray
+        Color rayColor;
+        if(raycastHit.collider != null )
+        {
+            rayColor = Color.green;
+        }
+        else
+        {
+            rayColor = Color.red;
+        }
+
+        //Debug.DrawRay(bc.bounds.center + new Vector3(bc.bounds.extents.x, 0), Vector2.down * (bc.bounds.extents.y + extraHeight), rayColor);
+        //Debug.DrawRay(bc.bounds.center - new Vector3(bc.bounds.extents.x, 0), Vector2.down * (bc.bounds.extents.y + extraHeight), rayColor);
+        //Debug.DrawRay(bc.bounds.center - new Vector3(bc.bounds.extents.x, bc.bounds.extents.y + extraHeight), Vector2.right * (bc.bounds.extents.x * 2f), rayColor);
+
+        //Debug.Log(raycastHit.collider);
+
+        if( raycastHit.collider)
+        {
+            
+            isGrounded=true;
+        }
+        else
+        {
+            isGrounded=false;
+        }
+        
+        
     }
 }
