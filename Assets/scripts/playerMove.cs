@@ -9,6 +9,7 @@ public class playerMove : MonoBehaviour
 {
     // Start is called before the first frame update
 
+    public GameObject camera;
     public int lives = 1;
     bool faceLeft=false;    
     private Rigidbody2D rb;

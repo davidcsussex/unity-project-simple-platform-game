@@ -849,6 +849,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2fa6cf3fd2b562845b80bcda83efdde2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  camera: {fileID: 1282294234}
   lives: 1
   platformLayerMask:
     serializedVersion: 2
