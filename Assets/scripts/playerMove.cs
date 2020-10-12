@@ -19,24 +19,27 @@ public class playerMove : MonoBehaviour
 
     bool isGrounded;
 
-    
+    public bool isDead;
+
     void Start()
     {
         // Get the rigidbody component
         rb = GetComponent<Rigidbody2D>();
         bc = GetComponent<BoxCollider2D>();
 
-
+        isDead = false;
         jumping = false;
     }
 
     // Update is called once per frame
     void Update()
     {
+        checkPlayerDead();
+
         Vector2 velocity = rb.velocity;
 
         
-        Debug.Log("ig="+isGrounded);
+        //Debug.Log("ig="+isGrounded);
         if(  isGrounded == true )
         {
             
@@ -83,12 +86,12 @@ public class playerMove : MonoBehaviour
         if( faceLeft == true )
         {
             
-            transform.localScale = new Vector3(-1,1,1);
+            //transform.localScale = new Vector3(-1,1,1);
         }
         else
         {
             
-            transform.localScale = new Vector3(1,1,1);
+            //transform.localScale = new Vector3(1,1,1);
         }
 
         
@@ -142,5 +145,14 @@ public class playerMove : MonoBehaviour
         }
         
         
+    }
+
+    void checkPlayerDead()
+    {
+        if( isDead == true )
+        {
+            transform.localScale=new Vector2(0.5f, 0.5f);
+            Debug.Log("i am dead!!");
+        }
     }
 }
