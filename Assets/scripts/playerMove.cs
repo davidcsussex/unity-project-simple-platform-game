@@ -45,8 +45,8 @@ public class playerMove : MonoBehaviour
             
             if (Input.GetKey("j") && (jumping==false))
             {
-                Debug.Log("grounded do jump");
-                if( velocity.y == 0 )
+                Debug.Log("grounded do jump  vel="+velocity.y);
+                if( velocity.y < 0.01 )
                 {
                     velocity.y=24;
                     //jumping = true;
@@ -113,7 +113,7 @@ public class playerMove : MonoBehaviour
     //  tutorial on boxcast/raycast  https://www.youtube.com/watch?v=c3iEl5AwUF8
     public void CheckPlayerIsGrounded()
     {
-        float extraHeight = 1f;
+        float extraHeight = 0.5f;
         // make sure background objects are on their own layer, or collision will register with player
         RaycastHit2D raycastHit = Physics2D.BoxCast(bc.bounds.center,bc.bounds.size, 0f, Vector2.down, extraHeight, platformLayerMask );
 
@@ -128,9 +128,9 @@ public class playerMove : MonoBehaviour
             rayColor = Color.red;
         }
 
-        //Debug.DrawRay(bc.bounds.center + new Vector3(bc.bounds.extents.x, 0), Vector2.down * (bc.bounds.extents.y + extraHeight), rayColor);
-        //Debug.DrawRay(bc.bounds.center - new Vector3(bc.bounds.extents.x, 0), Vector2.down * (bc.bounds.extents.y + extraHeight), rayColor);
-        //Debug.DrawRay(bc.bounds.center - new Vector3(bc.bounds.extents.x, bc.bounds.extents.y + extraHeight), Vector2.right * (bc.bounds.extents.x * 2f), rayColor);
+        Debug.DrawRay(bc.bounds.center + new Vector3(bc.bounds.extents.x, 0), Vector2.down * (bc.bounds.extents.y + extraHeight), rayColor);
+        Debug.DrawRay(bc.bounds.center - new Vector3(bc.bounds.extents.x, 0), Vector2.down * (bc.bounds.extents.y + extraHeight), rayColor);
+        Debug.DrawRay(bc.bounds.center - new Vector3(bc.bounds.extents.x, bc.bounds.extents.y + extraHeight), Vector2.right * (bc.bounds.extents.x * 2f), rayColor);
 
         //Debug.Log(raycastHit.collider);
 
@@ -152,7 +152,7 @@ public class playerMove : MonoBehaviour
         if( isDead == true )
         {
             transform.localScale=new Vector2(0.5f, 0.5f);
-            Debug.Log("i am dead!!");
+            //Debug.Log("i am dead!!");
         }
     }
 }
