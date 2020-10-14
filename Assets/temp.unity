@@ -1034,6 +1034,8 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 256
   isDead: 0
+  standSprite: {fileID: 21300000, guid: 69c0886c9f30a7c44bc6706ea871508f, type: 3}
+  jumpSprite: {fileID: 21300000, guid: 71327a24d7b942b4e8d45debb87725ca, type: 3}
 --- !u!212 &1539427453
 SpriteRenderer:
   m_ObjectHideFlags: 0

@@ -21,14 +21,23 @@ public class playerMove : MonoBehaviour
 
     public bool isDead;
 
+    SpriteRenderer sr;
+    public Sprite standSprite;
+    public Sprite jumpSprite;
+
+
     void Start()
     {
         // Get the rigidbody component
         rb = GetComponent<Rigidbody2D>();
         bc = GetComponent<BoxCollider2D>();
+        sr = GetComponent<SpriteRenderer>(); 
+        
 
         isDead = false;
         jumping = false;
+
+
     }
 
     // Update is called once per frame
@@ -49,7 +58,7 @@ public class playerMove : MonoBehaviour
                 if( velocity.y < 0.01 )
                 {
                     velocity.y=24;
-                    //jumping = true;
+                    jumping = true;
                 }
             }
 
@@ -94,6 +103,17 @@ public class playerMove : MonoBehaviour
             //transform.localScale = new Vector3(1,1,1);
         }
 
+
+        jumping = true;
+
+        if( velocity.y > 0.01f )
+        {
+            sr.sprite = jumpSprite;
+        }
+        else
+        {
+            sr.sprite = standSprite;        
+        }
         
 
         //ui_text.Debug("hello");
@@ -138,6 +158,7 @@ public class playerMove : MonoBehaviour
         {
             
             isGrounded=true;
+            jumping = false;
         }
         else
         {
