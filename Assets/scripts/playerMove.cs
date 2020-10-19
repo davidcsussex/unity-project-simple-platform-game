@@ -17,6 +17,7 @@ public class playerMove : MonoBehaviour
     bool jumping;
     public LayerMask platformLayerMask;
 
+
     bool isGrounded;
 
     public bool isDead;
@@ -104,9 +105,10 @@ public class playerMove : MonoBehaviour
         }
 
 
-        jumping = true;
+        
 
-        if( velocity.y > 0.01f )
+        // set jump animation when player begins to fall
+        if( (velocity.y > 0.01f) && jumping )
         {
             sr.sprite = jumpSprite;
         }
@@ -133,6 +135,15 @@ public class playerMove : MonoBehaviour
     //  tutorial on boxcast/raycast  https://www.youtube.com/watch?v=c3iEl5AwUF8
     public void CheckPlayerIsGrounded()
     {
+
+
+        //disable boxcollider if player has a positive y velocity to make him jump through platforms
+        if( rb.velocity.y > 0.1f )
+            bc.enabled = false;
+        else
+            bc.enabled = true;            
+
+
         float extraHeight = 0.5f;
         // make sure background objects are on their own layer, or collision will register with player
         RaycastHit2D raycastHit = Physics2D.BoxCast(bc.bounds.center,bc.bounds.size, 0f, Vector2.down, extraHeight, platformLayerMask );
